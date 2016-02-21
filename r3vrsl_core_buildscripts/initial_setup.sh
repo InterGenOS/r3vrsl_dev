@@ -234,8 +234,8 @@ SETUP_BUILD () {
         exit 1
     fi
     unzip master.zip 2>&1 && rm master.zip
-    mv r3vrsl_dev/r3vrsl_core_sources/* "$R3VRSL"/sources && rm -rf r3vrsl_dev/r3vrsl_core_sources
-    mv r3vrsl_dev/r3vrsl_core_buildscripts/* "$R3VRSL"/ && rm -rf r3vrsl_dev
+    mv r3vrsl_dev-master/r3vrsl_core_sources/* "$R3VRSL"/sources && rm -rf r3vrsl_dev-master/r3vrsl_core_sources
+    mv r3vrsl_dev-master/r3vrsl_core_buildscripts/* "$R3VRSL"/ && rm -rf r3vrsl_dev-master
     mkdir -v "$R3VRSL"/tools && ln -sv "$R3VRSL"/tools /
     sleep 2 && echo -e "  ${GREEN}Source preparation complete${NOCOLOR}" && sleep 3
 
