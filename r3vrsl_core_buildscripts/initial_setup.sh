@@ -161,7 +161,7 @@ SETUP_BUILD () {
 
     # Mount the build directory
     clear && HEADER1
-    echo -e "\n  ${GREEN}Setting up build directory mount...${NOCOLOR}"
+    echo -e "\n  ${GREEN}Setting up build directory mount...${NOCOLOR}\n\n"
     mkdir -pv "$R3VRSL" || echo -e "\n  Unable to create mount directory ${R3VRSL}\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
         echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
@@ -174,36 +174,23 @@ SETUP_BUILD () {
         rm /home/failure
         exit 1
     fi
-    sleep 2 && echo -e "\n  ${GREEN}Build directory mount setup complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n\n  ${GREEN}Build directory mount setup complete${NOCOLOR}" && sleep 3
 
     # Set build variables in root and system user accts
     clear && HEADER1
     echo -en "\n  ${GREEN}Please enter your system username${NOCOLOR}: "
     read USER
-    echo -e "\n  ${GREEN}Adding build environment variables to bash initialization files...${NOCOLOR}"
-    if [ -z "$(grep "export R3VRSL" /home/"$USER"/.bashrc)" ]; then
-        echo "export R3VRSL=/mnt/r3vrsl" >> /home/"$USER"/.bashrc
-    fi
-    if [ -f /root/.bashrc ]; then
-        if [ -z "$(grep "export R3VRSL" /root/.bashrc)" ]; then
-            echo "export R3VRSL=/mnt/r3vrsl" >> /root/.bashrc
-        fi
-    else
-        if [ -z "$(grep "export R3VRSL" /root/.bash_profile)" ]; then
-            echo "export R3VRSL=/mnt/r3vrsl" >> /root/.bash_profile
-        fi
-    fi
-    if [ -z "$(grep "export R3VRSL_PART" /home/"$USER"/.bash_profile)" ]; then
-        echo "export R3VRSL_PART=/dev/$TARGET_PARTITION" >> /home/"$USER"/.bash_profile
-    fi
-    if [ -z "$(grep "export R3VRSL_PART" /root/.bash_profile)" ]; then
-        echo "export R3VRSL_PART=/dev/$TARGET_PARTITION" >> /root/.bash_profile
-    fi
-    sleep 2 && echo -e "\n  ${GREEN}Variable additions complete${NOCOLOR}" && sleep 3
+    echo -e "\n  ${GREEN}Adding build environment variables to bash initialization files...${NOCOLOR}\n\n"
+    echo "export R3VRSL=/mnt/r3vrsl" >> /home/"$USER"/.bashrc
+    echo "export R3VRSL=/mnt/r3vrsl" >> /root/.bashrc
+    echo "export R3VRSL=/mnt/r3vrsl" >> /root/.bash_profile
+    echo "export R3VRSL_PART=/dev/$TARGET_PARTITION" >> /home/"$USER"/.bash_profile
+    echo "export R3VRSL_PART=/dev/$TARGET_PARTITION" >> /root/.bash_profile
+    sleep 2 && echo -e "\n\n  ${GREEN}Variable additions complete${NOCOLOR}" && sleep 3
 
     # Set up source directory
     clear && HEADER1
-    echo -e "\n  ${GREEN}Creating source directory...${NOCOLOR}"
+    echo -e "\n  ${GREEN}Creating source directory...${NOCOLOR}\n\n"
     mkdir -pv "$R3VRSL"/sources || echo -e "\n\n  Unable to create source directory ${R3VRSL}/sources!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
         echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
@@ -211,7 +198,7 @@ SETUP_BUILD () {
         exit 1
     fi
     chmod -v a+wt "$R3VRSL"/sources
-    sleep 2 && echo -e "\n  ${GREEN}Source directory creation complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n\n  ${GREEN}Source directory creation complete${NOCOLOR}" && sleep 3
 
     # Download sources
     clear && HEADER1
@@ -222,11 +209,11 @@ SETUP_BUILD () {
         rm /home/failure
         exit 1
     fi
-    sleep 2 && echo -e "\n  ${GREEN}Source retrieval complete${NOCOLOR}\n\n" && sleep 3
+    sleep 2 && echo -e "\n\n  ${GREEN}Source retrieval complete${NOCOLOR}" && sleep 3
 
     # Move sources into place
     clear && HEADER1
-    echo -e "\n  ${GREEN}Preparing sources for compilation...${NOCOLOR}\n\n"
+    echo -e "\n  ${GREEN}Preparing sources for compilation...${NOCOLOR}\n\n" && sleep 2
     cd "$R3VRSL" || echo -e "\n\n  Unable to move into ${R3VRSL}!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
         echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
@@ -237,7 +224,7 @@ SETUP_BUILD () {
     mv r3vrsl_dev-master/r3vrsl_core_sources/* "$R3VRSL"/sources && rm -rf r3vrsl_dev-master/r3vrsl_core_sources
     mv r3vrsl_dev-master/r3vrsl_core_buildscripts/* "$R3VRSL"/ && rm -rf r3vrsl_dev-master
     mkdir -v "$R3VRSL"/tools && ln -sv "$R3VRSL"/tools /
-    sleep 2 && echo -e "\n  ${GREEN}Source preparation complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n\n  ${GREEN}Source preparation complete${NOCOLOR}" && sleep 3
 
     # Create build system user
     clear && HEADER1
@@ -245,20 +232,22 @@ SETUP_BUILD () {
     groupadd r3vrsl
     useradd -s /bin/bash -g r3vrsl -m -k /dev/null r3vrsl
     echo "r3vrsl:r3vrsldev" | chpasswd
-    sleep 2 && echo -e "\n  ${GREEN}User creation completed${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n\n  ${GREEN}User creation completed${NOCOLOR}" && sleep 3
 
     # Assign build directory ownership
     clear && HEADER1
     echo -e "\n  ${GREEN}Assigning ownership of ${WHITE}${R3VRSL}/{${NOCOLOR}sources,tools${WHITE}} ${GREEN}to user ${WHITE}r3vrsl${GREEN}...${NOCOLOR}\n\n"
     chown -v r3vrsl "$R3VRSL"/{tools,sources}
-    sleep 2 && echo -e "\n  ${GREEN}Directory ownership assignment complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n\n  ${GREEN}Directory ownership assignment complete${NOCOLOR}" && sleep 3
 
     # Setup r3vrsl shell for 'build_temp_sys.sh'
     clear && HEADER1
     echo -e "\n  ${GREEN}Preparing shell variables for user ${WHITE}r3vrsl${GREEN}...${NOCOLOR}\n\n"
     chown -v r3vrsl "$R3VRSL"/*.sh
     chmod +x "$R3VRSL"/*.sh
-    mv "$R3VRSL"/sources/r3vrsl.* /home/r3vrsl/ && chown -v r3vrsl:users /home/r3vrsl/*
+    mv "$R3VRSL"/sources/r3vrsl.bash_profile /home/r3vrsl/.bash_profile
+    mv "$R3VRSL"/sources/r3vrsl.bashrc /home/r3vrsl/.bashrc
+    && chown -v r3vrsl:users /home/r3vrsl/*
 
     # Set UUID in etc--fstab
     RUUID="$(blkid | grep "$TARGET_PARTITION" | sed 's/"/ /g' | awk '{print $3}')"
@@ -266,7 +255,7 @@ SETUP_BUILD () {
 
     # Get 'target.drive' for use in 'finalize_sys.sh'
     echo $TARGET_PARTITION | sed 's/[0-9]//' > "$R3VRSL"/target.drive
-    sleep 2 && echo -e "\n  ${GREEN}Shell variable preparation complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n\n  ${GREEN}Shell variable preparation complete${NOCOLOR}" && sleep 3
 
 }
 
