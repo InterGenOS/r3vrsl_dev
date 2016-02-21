@@ -1,0 +1,11 @@
+# 
+# /etc/fstab: static file system information
+#
+# <file system>                                 <dir>           <type>          <options>                       <dump>  <pass>
+# /dev/T_PT
+/dev/T_PT                                       /               ext4            rw,relatime,data=ordered        0       1
+proc                                            /proc           proc            nosuid,noexec,nodev             0       0
+sysfs                                           /sys            sysfs           nosuid,noecec,nodev             0       0
+devpts                                          /dev/pts        devpts          gid=5,mode=620                  0       0
+tmpfs                                           /run            tmpfs           defaults                        0       0
+devtmpfs                                        /dev            devtmpfs        mode=0755,nosuid                0       0

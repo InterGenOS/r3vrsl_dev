@@ -1,0 +1,67 @@
+##############################################################################
+####                                                                      ####
+####  Begin /etc/bashrc                                                   ####
+####  Written by Christopher 'InterGen' Cork <chris@intergenstudios.com>  ####
+####  2/25/15                                                             ####
+####                                                                      ####
+##############################################################################
+
+
+export EDITOR=nano
+export LC_COLLATE="C"
+
+
+###############################
+####                       ####
+####  System wide aliases  ####
+####                       ####
+###############################
+
+
+alias ls='ls -a --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
+alias grep='grep --color=auto'
+
+
+#################################
+####                         ####
+####  System wide functions  ####
+####                         ####
+#################################
+
+
+
+
+################################################################################
+####                                                                        ####
+####  System wide environment variables and startup programs should go in   ####
+####  ~/.bash_profile.  System wide environment variables and startup       ####
+####  programs are in /etc/profile.  System wide aliases and functions are  ####
+####  in /etc/bashrc.                                                       ####
+####                                                                        ####
+################################################################################
+
+
+#############################################################################
+####                                                                     ####
+####  Provides prompt for non-login shells, specifically shells started  ####
+####  in the X environment.                                              ####
+####                                                                     ####
+#############################################################################
+
+RED='\[\e[1;34m\][\[\e[m\] \[\e[1;31m\]\u\[\e[m\]\[\e[1;34m\]@\[\e[m\]\[\e[1;37m\]\h\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;34m\][\[\e[m\] \[\e[1;37m\]<\[\e[m\]\[\e[1;32m\]\w\[\e[m\]\[\e[1;37m\]>\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;37m\]:\[\e[m\]\[\e[1;37m\]\\$\[\e[m\] '
+GREEN='\[\e[1;34m\][\[\e[m\] \[\e[1;32m\]\u\[\e[m\]\[\e[1;34m\]@\[\e[m\]\[\e[1;37m\]\h\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;34m\][\[\e[m\] \[\e[1;37m\]<\[\e[m\]\[\e[1;32m\]\w\[\e[m\]\[\e[1;37m\]>\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;37m\]:\[\e[m\]\[\e[1;37m\]\\$\[\e[m\] '
+
+if [[ $EUID == 0 ]] ; then
+export PS1=$RED
+else
+export PS1=$GREEN
+fi
+
+unset RED GREEN
+
+
+###########################
+####                   ####
+####  End /etc/bashrc  ####
+####                   ####
+###########################

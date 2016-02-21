@@ -1,0 +1,129 @@
+##############################################################################
+####                                                                      ####
+####  Begin /etc/profile                                                  ####
+####  Written by Christopher 'InterGen' Cork <chris@intergenstudios.com>  ####
+####  2/25/15                                                             ####
+####                                                                      ####
+##############################################################################
+
+
+#############################################
+####                                     ####
+####  System wide environment variables  ####
+####                                     ####
+#############################################
+
+
+# Setup some environment variables.
+export HISTSIZE=9999
+export HISTIGNORE="&:[bf]g:exit"
+
+# Set some defaults for graphical systems
+export XDG_DATA_DIRS=/usr/share
+
+
+
+########################################
+####                                ####
+####  System wide startup programs  ####
+####                                ####
+########################################
+
+
+
+################################################################################
+####                                                                        ####
+####  System wide environment variables and startup programs should go in   ####
+####  ~/.bash_profile.  System wide environment variables and startup       ####
+####  programs are in /etc/profile.  System wide aliases and functions are  ####
+####  in /etc/bashrc.                                                       ####
+####                                                                        ####
+################################################################################
+
+
+
+#################################
+####                         ####
+####  System Wide Functions  ####
+####                         ####
+##################################################################################
+####                                                                          ####
+####  Functions to help us manage paths.  Second argument is the name of the  ####
+####  path variable to be modified (default: PATH)                            ####
+####                                                                          ####
+##################################################################################
+
+
+pathremove () {
+        local IFS=':'
+        local NEWPATH
+        local DIR
+        local PATHVARIABLE=${2:-PATH}
+        for DIR in ${!PATHVARIABLE} ; do
+                if [ "$DIR" != "$1" ] ; then
+                  NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
+                fi
+        done
+        export $PATHVARIABLE="$NEWPATH"
+}
+
+pathprepend () {
+        pathremove $1 $2
+        local PATHVARIABLE=${2:-PATH}
+        export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
+}
+
+pathappend () {
+        pathremove $1 $2
+        local PATHVARIABLE=${2:-PATH}
+        export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
+}
+
+export -f pathremove pathprepend pathappend
+
+
+################################
+####                        ####
+####  Set the initial path  ####
+####                        ####
+################################
+
+
+export PATH=/bin:/usr/bin
+
+if [ $EUID -eq 0 ] ; then
+        pathappend /sbin:/usr/sbin
+        unset HISTFILE
+fi
+
+
+######################################################################
+####                                                              ####
+####  Initializations- red prompt for root, green one for users,  ####
+####  and run any scripts in /etc/profile.d/                      ####
+####                                                              ####
+######################################################################
+
+RED='\[\e[1;34m\][\[\e[m\] \[\e[1;31m\]\u\[\e[m\]\[\e[1;34m\]@\[\e[m\]\[\e[1;37m\]\h\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;34m\][\[\e[m\] \[\e[1;37m\]<\[\e[m\]\[\e[1;32m\]\w\[\e[m\]\[\e[1;37m\]>\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;37m\]:\[\e[m\]\[\e[1;37m\]\\$\[\e[m\] '
+GREEN='\[\e[1;34m\][\[\e[m\] \[\e[1;32m\]\u\[\e[m\]\[\e[1;34m\]@\[\e[m\]\[\e[1;37m\]\h\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;34m\][\[\e[m\] \[\e[1;37m\]<\[\e[m\]\[\e[1;32m\]\w\[\e[m\]\[\e[1;37m\]>\[\e[m\] \[\e[1;34m\]]\[\e[m\]\[\e[1;37m\]:\[\e[m\]\[\e[1;37m\]\\$\[\e[m\] '
+
+if [[ $EUID == 0 ]] ; then
+export PS1=$RED
+else
+export PS1=$GREEN
+fi
+
+for script in /etc/profile.d/*.sh ; do
+        if [ -r $script ] ; then
+                . $script
+        fi
+done
+
+unset script RED GREEN
+
+
+############################
+####                    ####
+####  END /etc/profile  ####
+####                    ####
+############################

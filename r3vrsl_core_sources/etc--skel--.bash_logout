@@ -1,0 +1,7 @@
+# Begin ~/.bash_logout
+# Personal items to perform on logout.
+
+
+
+# End ~/.bash_logout
+
