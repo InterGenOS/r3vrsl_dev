@@ -222,7 +222,7 @@ SETUP_BUILD () {
         rm /home/failure
         exit 1
     fi
-    sleep 2 && echo -e "  ${GREEN}Source retrieval complete${NOCOLOR}\n\n" && sleep 3
+    sleep 2 && echo -e "\n  ${GREEN}Source retrieval complete${NOCOLOR}\n\n" && sleep 3
 
     # Move sources into place
     clear && HEADER1
@@ -237,7 +237,7 @@ SETUP_BUILD () {
     mv r3vrsl_dev-master/r3vrsl_core_sources/* "$R3VRSL"/sources && rm -rf r3vrsl_dev-master/r3vrsl_core_sources
     mv r3vrsl_dev-master/r3vrsl_core_buildscripts/* "$R3VRSL"/ && rm -rf r3vrsl_dev-master
     mkdir -v "$R3VRSL"/tools && ln -sv "$R3VRSL"/tools /
-    sleep 2 && echo -e "  ${GREEN}Source preparation complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n  ${GREEN}Source preparation complete${NOCOLOR}" && sleep 3
 
     # Create build system user
     clear && HEADER1
@@ -245,13 +245,13 @@ SETUP_BUILD () {
     groupadd r3vrsl
     useradd -s /bin/bash -g r3vrsl -m -k /dev/null r3vrsl
     echo "r3vrsl:r3vrsldev" | chpasswd
-    sleep 2 && echo -e "  ${GREEN}User creation completed${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n  ${GREEN}User creation completed${NOCOLOR}" && sleep 3
 
     # Assign build directory ownership
     clear && HEADER1
     echo -e "\n  ${GREEN}Assigning ownership of ${WHITE}${R3VRSL}/{${NOCOLOR}sources,tools${WHITE}} ${GREEN}to user ${WHITE}r3vrsl${GREEN}...${NOCOLOR}\n\n"
     chown -v r3vrsl "$R3VRSL"/{tools,sources}
-    sleep 2 && echo -e "  ${GREEN}Directory ownership assignment complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n  ${GREEN}Directory ownership assignment complete${NOCOLOR}" && sleep 3
 
     # Setup r3vrsl shell for 'build_temp_sys.sh'
     clear && HEADER1
@@ -266,7 +266,7 @@ SETUP_BUILD () {
 
     # Get 'target.drive' for use in 'finalize_sys.sh'
     echo $TARGET_PARTITION | sed 's/[0-9]//' > "$R3VRSL"/target.drive
-    sleep 2 && echo -e "  ${GREEN}Shell variable preparation complete${NOCOLOR}" && sleep 3
+    sleep 2 && echo -e "\n  ${GREEN}Shell variable preparation complete${NOCOLOR}" && sleep 3
 
 }
 
@@ -285,7 +285,6 @@ SETUP_BUILD () {
 
 HEADER1
 GET_TARGET_BUILD_PARTITION
-SETUP_BUILD
 
 #######################
 ##-------------------##
