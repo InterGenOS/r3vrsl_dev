@@ -164,13 +164,13 @@ SETUP_BUILD () {
     echo -e "\n  ${GREEN}Setting up build directory mount...${NOCOLOR}"
     mkdir -pv "$R3VRSL" || echo -e "\n  Unable to create mount directory ${R3VRSL}\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
-        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)"
+        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
         rm /home/failure
         exit 1
     fi
     mount -v -t ext4 /dev/"$TARGET_PARTITION" "$R3VRSL" || echo -e "\n\n  Unable to mount ${R3VRSL} on /dev/${TARGET_PARTITION}!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
-        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)"
+        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
         rm /home/failure
         exit 1
     fi
@@ -206,7 +206,7 @@ SETUP_BUILD () {
     echo -e "\n  ${GREEN}Creating source directory...${NOCOLOR}"
     mkdir -pv "$R3VRSL"/sources || echo -e "\n\n  Unable to create source directory ${R3VRSL}/sources!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
-        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)"
+        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
         rm /home/failure
         exit 1
     fi
@@ -218,7 +218,7 @@ SETUP_BUILD () {
     echo -e "\n  ${GREEN}Fetching sources... ${NOCOLOR}(this might take a little while...)\n\n"
     wget -q https://github.com/InterGenOS/r3vrsl_dev/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch sources!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
-        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)"
+        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
         rm /home/failure
         exit 1
     fi
@@ -229,7 +229,7 @@ SETUP_BUILD () {
     echo -e "\n  ${GREEN}Preparing sources for compilation...${NOCOLOR}\n\n"
     cd "$R3VRSL" || echo -e "\n\n  Unable to move into ${R3VRSL}!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
-        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)"
+        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
         rm /home/failure
         exit 1
     fi
