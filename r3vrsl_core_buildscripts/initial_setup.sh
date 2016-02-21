@@ -144,7 +144,7 @@ GET_TARGET_BUILD_PARTITION () {
     echo -en "    Build ${GREY}R${RED}3${GREY}VRSL${NOCOLOR} in ${GREEN}${TARGET_PARTITION}${NOCOLOR}, correct ${WHITE}(${NOCOLOR}y/N${WHITE})${NOCOLOR}? "
     read TARGET_CONFIRMATION
     printf "\n\n"
-    if [ "$TARGET_CONFIRMATION" = "Y" ] || [ "$TARGET_CONFIRMATION" = "y" ] || [ "$TARGET_CONFIRMATION" = "Yes" ] || [ "$TARGET_CONFIRMATION" = "yes" ]; then
+    if [[ "$TARGET_CONFIRMATION" = "Y" || "y" || "Yes" || "YES" || "yes" ]]; then
         sleep 2
         rm partitions partitionlist
         SETUP_BUILD
