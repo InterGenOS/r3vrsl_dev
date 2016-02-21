@@ -247,7 +247,7 @@ SETUP_BUILD () {
     chmod +x "$R3VRSL"/*.sh
     mv "$R3VRSL"/sources/r3vrsl.bash_profile /home/r3vrsl/.bash_profile
     mv "$R3VRSL"/sources/r3vrsl.bashrc /home/r3vrsl/.bashrc
-    && chown -v r3vrsl:users /home/r3vrsl/*
+    chown -v r3vrsl:users /home/r3vrsl/{.bashrc,.bash_profile}
 
     # Set UUID in etc--fstab
     RUUID="$(blkid | grep "$TARGET_PARTITION" | sed 's/"/ /g' | awk '{print $3}')"
