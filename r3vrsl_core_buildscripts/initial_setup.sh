@@ -216,20 +216,12 @@ SETUP_BUILD () {
     # Download sources
     clear && HEADER1
     echo -e "\n  ${GREEN}Fetching sources... ${NOCOLOR}(this might take a little while...)\n\n"
-    wget -q https://github.com/InterGenOS/r3vrsl_dev/r3vrsl_core_sources/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch sources!\n\n  (exiting...)\n\n\n" > /home/failure
+    wget -q https://github.com/InterGenOS/r3vrsl_dev/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch sources!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
         echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)"
         rm /home/failure
         exit 1
     fi
-    mv "$R3VRSL"/master.zip "$R3VRSL"/sources.zip
-    wget -q https://github.com/InterGenOS/r3vrsl_dev/r3vrsl_core_buildscripts/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch buildscripts!\n\n  (exiting...)\n\n\n" > /home/failure
-    if [ -f /home/failure ]; then
-        echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)"
-        rm /home/failure
-        exit 1
-    fi
-    mv "$R3VRSL"/master.zip "$R3VRSL"/scripts.zip
     sleep 2 && echo -e "  ${GREEN}Source retrieval complete${NOCOLOR}\n\n" && sleep 3
 
     # Move sources into place
@@ -241,10 +233,9 @@ SETUP_BUILD () {
         rm /home/failure
         exit 1
     fi
-    unzip sources.zip 2>&1 && rm sources.zip
-    mv r3vrsl_core_sources/* "$R3VRSL"/sources && rm -rf r3vrsl_core_sources
-    unzip scripts.zip 2>&1 && rm scripts.zip
-    mv r3vrsl_core_buildscripts/* "$R3VRSL"/ && rm -rf r3vrsl_core_buildscripts
+    unzip master.zip 2>&1 && rm master.zip
+    mv r3vrsl_dev/r3vrsl_core_sources/* "$R3VRSL"/sources && rm -rf r3vrsl_dev/r3vrsl_core_sources
+    mv r3vrsl_dev/r3vrsl_core_buildscripts/* "$R3VRSL"/ && rm -rf r3vrsl_dev
     mkdir -v "$R3VRSL"/tools && ln -sv "$R3VRSL"/tools /
     sleep 2 && echo -e "  ${GREEN}Source preparation complete${NOCOLOR}" && sleep 3
 
@@ -301,4 +292,3 @@ SETUP_BUILD
 ## END - CORE SCRIPT ##
 ##-------------------##
 #######################
-
