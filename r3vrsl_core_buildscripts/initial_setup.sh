@@ -139,7 +139,7 @@ GET_TARGET_BUILD_PARTITION () {
     cat partitionlist
     DIVIDER1 BLUE
     echo -en "  ${GREEN}[${WHITE}enter selection${GREEN}]${NOCOLOR}: "
-    read PARTITION_CHOICE
+    read -r PARTITION_CHOICE
 
     #------------------------------------------------------#
     # Read target partition from build partition selection #
@@ -153,7 +153,7 @@ GET_TARGET_BUILD_PARTITION () {
     #--------------------------------#
 
     echo -en "    Build ${GREY}R${RED}3${GREY}VRSL${NOCOLOR} in ${GREEN}${TARGET_PARTITION}${NOCOLOR}, correct ${WHITE}(${NOCOLOR}y/N${WHITE})${NOCOLOR}? "
-    read TARGET_CONFIRMATION
+    read -r TARGET_CONFIRMATION
     printf "\n\n"
     if [[ "$TARGET_CONFIRMATION" = "Y" || "y" || "Yes" || "YES" || "yes" ]]; then
         sleep 2
@@ -196,7 +196,7 @@ SETUP_BUILD () {
 
     clear && HEADER1
     echo -en "\n  ${GREEN}Please enter your system username${NOCOLOR}: "
-    read USER
+    read -r USER
     echo -e "\n  ${GREEN}Adding build environment variables to bash initialization files...${NOCOLOR}\n\n"
     echo "export R3VRSL=/mnt/r3vrsl" >> /home/"$USER"/.bashrc
     echo "export R3VRSL=/mnt/r3vrsl" >> /root/.bashrc
@@ -295,7 +295,7 @@ SETUP_BUILD () {
     # Get 'target.drive' for use in 'finalize_sys.sh' #
     #-------------------------------------------------#
 
-    echo $TARGET_PARTITION | sed 's/[0-9]//' > "$R3VRSL"/target.drive
+    echo "$TARGET_PARTITION" | sed 's/[0-9]//' > "$R3VRSL"/target.drive
     sleep 2 && echo -e "\n\n  ${GREEN}Shell variable preparation complete${NOCOLOR}" && sleep 3
 
 }
