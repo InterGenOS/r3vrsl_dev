@@ -127,9 +127,12 @@ CLEARLINE () {
 
 GET_TARGET_BUILD_PARTITION () {
 
+    #---------------------------------------#
+    # Create build partition selection list #
+    #---------------------------------------#
+
     clear && HEADER1 && sleep 1
     echo -e "\n  Select the partition to build ${GREY}R${RED}3${GREY}VRSL${NOCOLOR} in:\n"
-    # Create build partition selection list
     lsblk | grep part | cut -d 'd' -f 2- | sed -e 's/^/sd/' | awk '{printf "%- 13s %s\n", $1"  "$4, $6" "$7;}' > partitions
     sed = partitions | sed 'N;s/\n/\t/' > partitionlist && sed -i 's/^/#/g' partitionlist
     DIVIDER1 BLUE
@@ -137,10 +140,18 @@ GET_TARGET_BUILD_PARTITION () {
     DIVIDER1 BLUE
     echo -en "  ${GREEN}[${WHITE}enter selection${GREEN}]${NOCOLOR}: "
     read PARTITION_CHOICE
-    # Read target partition from build partition selection
+
+    #------------------------------------------------------#
+    # Read target partition from build partition selection #
+    #------------------------------------------------------#
+
     TARGET_PARTITION="$(grep -m 1 \#"$PARTITION_CHOICE" partitionlist | awk '{print $2}')"
     printf "\n\n"
-    # Confirm target build partition
+
+    #--------------------------------#
+    # Confirm target build partition #
+    #--------------------------------#
+
     echo -en "    Build ${GREY}R${RED}3${GREY}VRSL${NOCOLOR} in ${GREEN}${TARGET_PARTITION}${NOCOLOR}, correct ${WHITE}(${NOCOLOR}y/N${WHITE})${NOCOLOR}? "
     read TARGET_CONFIRMATION
     printf "\n\n"
@@ -159,7 +170,10 @@ GET_TARGET_BUILD_PARTITION () {
 
 SETUP_BUILD () {
 
-    # Mount the build directory
+    #------------------------------------#
+    # Make and mount the build directory #
+    #------------------------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Setting up build directory mount...${NOCOLOR}\n\n"
     mkdir -pv "$R3VRSL" || echo -e "\n  Unable to create mount directory ${R3VRSL}\n\n  (exiting...)\n\n\n" > /home/failure
@@ -176,7 +190,10 @@ SETUP_BUILD () {
     fi
     sleep 2 && echo -e "\n\n  ${GREEN}Build directory mount setup complete${NOCOLOR}" && sleep 3
 
-    # Set build variables in root and system user accts
+    #---------------------------------------------------#
+    # Set build variables in root and system user accts #
+    #---------------------------------------------------#
+
     clear && HEADER1
     echo -en "\n  ${GREEN}Please enter your system username${NOCOLOR}: "
     read USER
@@ -188,7 +205,10 @@ SETUP_BUILD () {
     echo "export R3VRSL_PART=/dev/$TARGET_PARTITION" >> /root/.bash_profile
     sleep 2 && echo -e "\n\n  ${GREEN}Variable additions complete${NOCOLOR}" && sleep 3
 
-    # Set up source directory
+    #-------------------------#
+    # Set up source directory #
+    #-------------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Creating source directory...${NOCOLOR}\n\n"
     mkdir -pv "$R3VRSL"/sources || echo -e "\n\n  Unable to create source directory ${R3VRSL}/sources!\n\n  (exiting...)\n\n\n" > /home/failure
@@ -200,10 +220,13 @@ SETUP_BUILD () {
     chmod -v a+wt "$R3VRSL"/sources
     sleep 2 && echo -e "\n\n  ${GREEN}Source directory creation complete${NOCOLOR}" && sleep 3
 
-    # Download sources
+    #------------------#
+    # Download sources #
+    #------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Fetching sources... ${NOCOLOR}(this might take a little while...)\n\n"
-    wget -q https://github.com/InterGenOS/r3vrsl_dev/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch sources!\n\n  (exiting...)\n\n\n" > /home/failure
+    wget -q https://github.com/R3VRSL/r3vrsl_dev/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch sources!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
         echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
         rm /home/failure
@@ -211,7 +234,10 @@ SETUP_BUILD () {
     fi
     sleep 2 && echo -e "\n\n  ${GREEN}Source retrieval complete${NOCOLOR}" && sleep 3
 
-    # Move sources into place
+    #-------------------------#
+    # Move sources into place #
+    #-------------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Preparing sources for compilation...${NOCOLOR}\n\n" && sleep 2
     cd "$R3VRSL" || echo -e "\n\n  Unable to move into ${R3VRSL}!\n\n  (exiting...)\n\n\n" > /home/failure
@@ -226,7 +252,10 @@ SETUP_BUILD () {
     mkdir -v "$R3VRSL"/tools && ln -sv "$R3VRSL"/tools /
     sleep 2 && echo -e "\n\n  ${GREEN}Source preparation complete${NOCOLOR}" && sleep 3
 
-    # Create build system user
+    #--------------------------#
+    # Create build system user #
+    #--------------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Creating user ${WHITE}r3vrsl ${GREEN}with password ${WHITE}r3vrsldev${GREEN}...${NOCOLOR}\n\n"
     groupadd r3vrsl
@@ -234,13 +263,19 @@ SETUP_BUILD () {
     echo "r3vrsl:r3vrsldev" | chpasswd
     sleep 2 && echo -e "\n\n  ${GREEN}User creation completed${NOCOLOR}" && sleep 3
 
-    # Assign build directory ownership
+    #----------------------------------#
+    # Assign build directory ownership #
+    #----------------------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Assigning ownership of ${WHITE}${R3VRSL}/{${NOCOLOR}sources,tools${WHITE}} ${GREEN}to user ${WHITE}r3vrsl${GREEN}...${NOCOLOR}\n\n"
     chown -v r3vrsl "$R3VRSL"/{tools,sources}
     sleep 2 && echo -e "\n\n  ${GREEN}Directory ownership assignment complete${NOCOLOR}" && sleep 3
 
-    # Setup r3vrsl shell for 'build_temp_sys.sh'
+    #--------------------------------------------#
+    # Setup r3vrsl shell for 'build_temp_sys.sh' #
+    #--------------------------------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Preparing shell variables for user ${WHITE}r3vrsl${GREEN}...${NOCOLOR}\n\n"
     chown -v r3vrsl "$R3VRSL"/*.sh
@@ -249,11 +284,17 @@ SETUP_BUILD () {
     mv "$R3VRSL"/sources/r3vrsl.bashrc /home/r3vrsl/.bashrc
     chown -v r3vrsl:users /home/r3vrsl/{.bashrc,.bash_profile}
 
-    # Set UUID in etc--fstab
+    #------------------------#
+    # Set UUID in etc--fstab #
+    #------------------------#
+
     RUUID="$(blkid | grep "$TARGET_PARTITION" | sed 's/"/ /g' | awk '{print $3}')"
     sed -i -e "s/T_PT/$RUUID/" "$R3VRSL"/sources/etc--fstab
 
-    # Get 'target.drive' for use in 'finalize_sys.sh'
+    #-------------------------------------------------#
+    # Get 'target.drive' for use in 'finalize_sys.sh' #
+    #-------------------------------------------------#
+
     echo $TARGET_PARTITION | sed 's/[0-9]//' > "$R3VRSL"/target.drive
     sleep 2 && echo -e "\n\n  ${GREEN}Shell variable preparation complete${NOCOLOR}" && sleep 3
 
@@ -261,13 +302,19 @@ SETUP_BUILD () {
 
 SETUP_CHROOT () {
 
-    # Set correct ownership
+    #-----------------------#
+    # Set correct ownership #
+    #-----------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Changing temporary tools directory ownership...${NOCOLOR}\n\n"
     chown -R root:root "$R3VRSL"/tools
     sleep 2 && echo -e "\n\n  ${GREEN}Temporary tools directory ownership change complete${NOCOLOR}" && sleep 3
 
-    # Bind and mount system mounts
+    #------------------------------#
+    # Bind and mount system mounts #
+    #------------------------------#
+
     clear && HEADER1
     echo -e "\n  ${GREEN}Preparing virtual kernel file system...${NOCOLOR}\n\n"
     mkdir -pv "$R3VRSL"/{dev,proc,sys,run}
@@ -365,7 +412,7 @@ if [ -f /home/failure ]; then
     rm /home/failure
     exit 1
 fi
-sudo -u root ./enter_chroot_post-bash.sh 2>&1 | tee /var/log/InterGenOS/BuildLogs/"$timestamp"_chroot_post-bash.log &&
+sudo -u root ./enter_chroot_post-bash.sh 2>&1 | tee /var/log/R3VRSL/BuildLogs/"$timestamp"_chroot_post-bash.log &&
 sed -i -e 's/[\x01-\x1F\x7F]//g' -e 's|\[1m||g' -e 's|\[32m||g' -e 's|\[34m||g' -e 's|(B\[m||g' -e 's|\[1m\[32m||g' -e 's|\[H\[2J||g' -e 's|\[1m\[31m||g' -e 's|\[1m\[34m||g' -e 's|\[5A\[K||g' -e 's|\[1m\[33m||g' /var/log/R3VRSL/BuildLogs/"$timestamp"_chroot_post-bash.log
 printf "\n\n"
 
@@ -383,7 +430,7 @@ if [ -f /home/failure ]; then
     rm /home/failure
     exit 1
 fi
-sudo -u root ./enter_chroot_stripping.sh 2>&1 | tee /var/log/InterGenOS/BuildLogs/"$timestamp"_chroot_stripping.log &&
+sudo -u root ./enter_chroot_stripping.sh 2>&1 | tee /var/log/R3VRSL/BuildLogs/"$timestamp"_chroot_stripping.log &&
 sed -i -e 's/[\x01-\x1F\x7F]//g' -e 's|\[1m||g' -e 's|\[32m||g' -e 's|\[34m||g' -e 's|(B\[m||g' -e 's|\[1m\[32m||g' -e 's|\[H\[2J||g' -e 's|\[1m\[31m||g' -e 's|\[1m\[34m||g' -e 's|\[5A\[K||g' -e 's|\[1m\[33m||g' /var/log/R3VRSL/BuildLogs/"$timestamp"_chroot_stripping.log
 printf "\n\n"
 
@@ -401,7 +448,7 @@ if [ -f /home/failure ]; then
     rm /home/failure
     exit 1
 fi
-sudo -u root ./enter_chroot_finalize.sh 2>&1 | tee /var/log/InterGenOS/BuildLogs/"$timestamp"_chroot_finalize.log &&
+sudo -u root ./enter_chroot_finalize.sh 2>&1 | tee /var/log/R3VRSL/BuildLogs/"$timestamp"_chroot_finalize.log &&
 sed -i -e 's/[\x01-\x1F\x7F]//g' -e 's|\[1m||g' -e 's|\[32m||g' -e 's|\[34m||g' -e 's|(B\[m||g' -e 's|\[1m\[32m||g' -e 's|\[H\[2J||g' -e 's|\[1m\[31m||g' -e 's|\[1m\[34m||g' -e 's|\[5A\[K||g' -e 's|\[1m\[33m||g' /var/log/R3VRSL/BuildLogs/"$timestamp"_chroot_finalize.log
 printf "\n\n"
 
