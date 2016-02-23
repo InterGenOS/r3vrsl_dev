@@ -226,7 +226,7 @@ SETUP_BUILD () {
 
     clear && HEADER1
     echo -e "\n  ${GREEN}Fetching sources... ${NOCOLOR}(this might take a little while...)\n\n"
-    wget -q https://github.com/R3VRSL/r3vrsl_dev/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch sources!\n\n  (exiting...)\n\n\n" > /home/failure
+    wget -q https://github.com/InterGenOS/r3vrsl_dev/archive/master.zip -P "$R3VRSL" || echo -e "\n\n  Unable to fetch sources!\n\n  (exiting...)\n\n\n" > /home/failure
     if [ -f /home/failure ]; then
         echo -e "\n\n  ${RED}FATAL ERROR${NOCOLOR}\n $(cat /home/failure)\n\n"
         rm /home/failure
