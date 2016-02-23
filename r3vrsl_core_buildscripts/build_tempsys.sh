@@ -131,10 +131,8 @@ SPACER () {
 
 BUILD_BINUTILS_PASS1 () {
 
-    clear
-    HEADER
-    echo -e "  ${GREEN}Building binutils-2.25.1 PASS 1...${NOCOLOR}"
-    printf "\n\n"
+    clear && HEADER1
+    echo -e "  ${GREEN}Building binutils-2.25.1 PASS 1...${NOCOLOR}\n\n"
     sleep 5
 
     #####################
