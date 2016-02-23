@@ -469,13 +469,13 @@ echo -e "  ${WHITE}Thank you for your participation in the project!${NOCOLOR}\n\
 echo -e "  ${WHITE}Any errors you find and would like to report will be greatly appreciated!${NOCOLOR}\n\n"
 echo -e "  ${WHITE}Send any submissions to:${NOCOLOR}\n\n\n"
 echo -e "                         ${GREEN}R3VRSL${WHITE}@${GREEN}R3VRSL.COM${NOCOLOR}\n\n\n"
-echo -e "  ${RED}${BLINK}***${NOCOLOR}${YELLOW}IMPORTANT - ${RED}${UNDERLINE}IMPORTANT${NOCOLOR}${YELLOW} - IMPORTANT${RED}${BLINK}***${NOCOLOR}\n\n"
+echo -e "  ${RED}${BLINK}***${NOCOLOR}${YELLOW}IMPORTANT - ${RED}${UNDERLINE_TEXT}IMPORTANT${NOCOLOR}${YELLOW} - IMPORTANT${RED}${BLINK}***${NOCOLOR}\n\n"
 echo -e "  ${WHITE}            YOU MUST NOW DO THE FOLLOWING:${NOCOLOR}\n"
 echo -e "                      ${GREEN}1)${WHITE} Re-Install Grub (or your preferred bootloader)${NOCOLOR}\n"
 echo -e "                             ie:  'sudo grub-install /dev/sd_'"
 echo -e "                      ${GREEN}2)${WHITE} Create a new bootloader config${NOCOLOR}\n"
 echo -e "                             ie:  'sudo grub-mkconfig -o /boot/grub/grub.cfg'\n\n"
-echo -e "  ${RED}${BLINK}***${NOCOLOR}${YELLOW}IMPORTANT - ${RED}${UNDERLINE}IMPORTANT${NOCOLOR}${YELLOW} - IMPORTANT${RED}${BLINK}***${NOCOLOR}\n\n"
+echo -e "  ${RED}${BLINK}***${NOCOLOR}${YELLOW}IMPORTANT - ${RED}${UNDERLINE_TEXT}IMPORTANT${NOCOLOR}${YELLOW} - IMPORTANT${RED}${BLINK}***${NOCOLOR}\n\n"
 echo -e "  ${WHITE}You should then be able to restart and select 'R3VRSL' from your boot menu"
 DIVIDER1 BLUE && sleep 3
 
