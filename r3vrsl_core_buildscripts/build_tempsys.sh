@@ -115,7 +115,7 @@ SPACER () {
 
         15) printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";;
         10) printf "\n\n\n\n\n\n\n\n\n\n";;
-         *) printf "\n\n\n\n\n"
+         *) printf "\n\n\n\n\n";;
 
     esac
 
