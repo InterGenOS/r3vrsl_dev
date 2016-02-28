@@ -1,8 +1,10 @@
 ![alt text](https://github.com/InterGenOS/r3vrsl_dev/blob/master/R3VRSL-logo-reverse_400x250.png "R3VRSL")
-# r3vrsl_dev
-BEHAVIORAL | CODE | MEMORY
 ---
 
+## R3VRSL - BEHAVIORAL | CODE | MEMORY
+    A 64bit SysVInit Linux Distribution built from source
+
+---
 
 ### Project Notes:
 ---
@@ -27,12 +29,6 @@ BEHAVIORAL | CODE | MEMORY
 
 ```
 
----
-
-## R3VRSL - BEHAVIORAL | CODE | MEMORY
-    A 64bit SysVInit Linux Distribution built from source
-
----
 
 ### R3VRSL Down Range - Activate System Monitoring:  down_range -on/off
 ---
@@ -41,6 +37,7 @@ BEHAVIORAL | CODE | MEMORY
     Wireshark       (ws) - protocol analysis
     Honeyd/farpd  (hdfd) - honeypot
     LiveFire        (lf) - malware repo
+---
 
 ### 'Down Range' Commands:
 ---
