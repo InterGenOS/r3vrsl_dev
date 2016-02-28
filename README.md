@@ -70,5 +70,5 @@ BEHAVIORAL | CODE | MEMORY
     Maltego
     Oragami framework (pdfwalker) pdf analysis
     Networkminer - pcap carving
-    Virusshare api - i have api key
+    Virusshare api
 ---
